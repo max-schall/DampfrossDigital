@@ -461,7 +461,7 @@ def plan_build_turn(
                 profile, sim_connected
             )
             if sc <= 0 and not any(c["number"] not in sim_connected
-                                   for c in _unconnected_cities(gs, player_idx)):
+                                   for c in gs.grid.cities):
                 # No positive-value extension
                 continue
 

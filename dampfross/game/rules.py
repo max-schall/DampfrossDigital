@@ -73,7 +73,7 @@ def _edge_crosses_river(grid, r1: int, c1: int, r2: int, c2: int) -> bool:
         for i in range(len(seg) - 1):
             cx, cy = float(seg[i,   0]), float(seg[i,   1])
             dx, dy = float(seg[i+1, 0]), float(seg[i+1, 1])
-            if math.isnan(cx) or math.isnan(dx):
+            if math.isnan(cx) or math.isnan(cy) or math.isnan(dx) or math.isnan(dy):
                 continue
             if _segs_intersect(ax, ay, bx, by, cx, cy, dx, dy):
                 return True

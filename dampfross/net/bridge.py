@@ -93,14 +93,17 @@ class NetworkBridge(QThread):
 
     def stop(self) -> None:
         """Request clean shutdown from any thread."""
-        if self._loop and self._outbound:
-            asyncio.run_coroutine_threadsafe(
-                self._outbound.put(_STOP_SENTINEL), self._loop
-            )
-        if self._loop and self._actions:
-            asyncio.run_coroutine_threadsafe(
-                self._actions.put(_STOP_SENTINEL), self._loop
-            )
+        try:
+            if self._loop and self._outbound:
+                asyncio.run_coroutine_threadsafe(
+                    self._outbound.put(_STOP_SENTINEL), self._loop
+                )
+            if self._loop and self._actions:
+                asyncio.run_coroutine_threadsafe(
+                    self._actions.put(_STOP_SENTINEL), self._loop
+                )
+        except RuntimeError:
+            pass  # loop already closed — nothing to signal
 
     # ── QThread.run() ────────────────────────────────────────────────────── #
 

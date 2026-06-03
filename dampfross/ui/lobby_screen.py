@@ -804,7 +804,7 @@ class LobbyScreen(QWidget):
                     "is_bot": False,
                     "slot":   i,
                 })
-            elif i <= remote:
+            elif i < remote:
                 color = _free_color(_PC[i % len(_PC)][0])
                 used_colors.add(color)
                 configs.append({

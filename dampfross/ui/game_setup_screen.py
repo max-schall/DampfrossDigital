@@ -621,6 +621,7 @@ class GameSetupScreen(QWidget):
         while self._rows_layout.count():
             item = self._rows_layout.takeAt(0)
             if item.widget():
+                item.widget().setParent(None)
                 item.widget().deleteLater()
         self._player_rows.clear()
 

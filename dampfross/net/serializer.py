@@ -54,8 +54,12 @@ def _des_player(d: dict):
     p.track_edges     = {_edge_des(e) for e in d["track_edges"]}
     p.track_nodes     = {(n[0], n[1]) for n in d["track_nodes"]}
     p.connected_cities = set(d["connected_cities"])
-    p.owned_ferries   = list(d.get("owned_ferries", [d["owned_ferry"]]
-                               if d.get("owned_ferry") is not None else []))
+    if "owned_ferries" in d:
+        p.owned_ferries = list(d["owned_ferries"])
+    elif d.get("owned_ferry") is not None:
+        p.owned_ferries = [d["owned_ferry"]]
+    else:
+        p.owned_ferries = []
     return p
 
 

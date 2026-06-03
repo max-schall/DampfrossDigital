@@ -46,7 +46,7 @@ def save_map(grid, path: str | Path) -> None:
         t_over = getattr(grid, "terrain_overrides", {})
         if t_over:
             zf.writestr("terrain_overrides.json",
-                        json.dumps({f"{r},{c}": v for (r, c), v in t_over.items()}))
+                        json.dumps({json.dumps([r, c]): v for (r, c), v in t_over.items()}))
         ferries_ser = [
             {"waypoints": [list(wp) for wp in f.get("waypoints", [])]}
             for f in grid.ferries
@@ -152,10 +152,12 @@ def _load_from_zip(zf):
     grid.cities  = cities
     if "terrain_overrides.json" in names:
         raw = json.loads(zf.read("terrain_overrides.json"))
-        grid.terrain_overrides = {
-            tuple(int(x) for x in k.split(",")): v
-            for k, v in raw.items()
-        }
+        def _parse_terrain_key(k):
+            if k.startswith("["):
+                v = json.loads(k)
+                return (int(v[0]), int(v[1]))
+            return tuple(int(x) for x in k.split(","))  # legacy "r,c" format
+        grid.terrain_overrides = {_parse_terrain_key(k): v for k, v in raw.items()}
     grid.ferries = [
         {"waypoints": [tuple(wp) for wp in f.get("waypoints", [])]}
         for f in ferries_ser
