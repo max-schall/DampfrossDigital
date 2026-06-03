@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+*.so
+
+# PyInstaller build artifacts
+build/
+dist/
+*.spec.bak
+
+# Test cache
+.pytest_cache/
+
+# Editor / OS noise
+.DS_Store
+Thumbs.db
+*.swp
+
+# Claude Code internal state (not part of the project)
+.claude/

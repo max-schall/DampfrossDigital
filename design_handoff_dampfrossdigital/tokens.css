@@ -1,0 +1,187 @@
+/* Dampfrossdigital — Design Tokens
+   Variation A is the dominant system; Variation B (in canvas) shows alt color+type.
+   Theme switches: light (default), dark, sepia. */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Fraunces:wght@500;600&display=swap');
+
+:root {
+  /* === Variation A · Stations (default) === */
+  --font-display: 'Geist', system-ui, -apple-system, sans-serif;
+  --font-body:    'Geist', system-ui, -apple-system, sans-serif;
+  --font-mono:    'Geist Mono', ui-monospace, monospace;
+
+  /* Neutrals — warm paper */
+  --paper:    #f4f2ec;
+  --surface:  #ffffff;
+  --surface-2:#fbfaf6;
+  --sunk:     #ece9e1;
+  --ink:      #14171c;
+  --ink-1:    #2a2e36;
+  --ink-2:    #5a5f6a;
+  --ink-3:    #8a8f99;
+  --ink-4:    #b9bcc3;
+  --rule:     #e2dfd7;
+  --rule-soft:#ecead3;
+
+  /* Player line colors — transit map palette, 8 distinct hues */
+  --p1:#e23b3b;  /* S1 · Red Line     */
+  --p2:#1f6fd9;  /* S2 · Blue Line    */
+  --p3:#1f7a4a;  /* S3 · Green Line   */
+  --p4:#e8a915;  /* S4 · Yellow Line  */
+  --p5:#e76018;  /* S5 · Orange Line  */
+  --p6:#7a4dd0;  /* S6 · Violet Line  */
+  --p7:#0a9aa1;  /* S7 · Teal Line    */
+  --p8:#d3398a;  /* S8 · Magenta Line */
+
+  /* Tints (used for bg badges, halos, soft fills) */
+  --p1-tint:#fcdede;
+  --p2-tint:#dde9fb;
+  --p3-tint:#dbece2;
+  --p4-tint:#fbecc4;
+  --p5-tint:#fbdec8;
+  --p6-tint:#e6dcfa;
+  --p7-tint:#cfeced;
+  --p8-tint:#fadbeb;
+
+  /* Map terrain (kept restrained — transit-map flat fills) */
+  --terrain-plain:    #faf8f2;
+  --terrain-forest:   #d9e7d1;
+  --terrain-mountain: #d8cebd;
+  --terrain-water:    #cee0ed;
+  --terrain-desert:   #ecd6a8;
+  --terrain-swamp:    #c9c8b1;
+  --city-ink:         var(--ink);
+  --river:            #5ea4d6;
+  --coast:            #b9d2e3;
+
+  /* Semantic */
+  --success:#1f7a4a;
+  --warn:#e8a915;
+  --danger:#e23b3b;
+  --info:#1f6fd9;
+
+  /* Radius */
+  --r-1: 4px;
+  --r-2: 8px;
+  --r-3: 12px;
+  --r-4: 16px;
+  --r-pill: 999px;
+
+  /* Elevation */
+  --sh-0: 0 1px 0 rgba(20,23,28,.04);
+  --sh-1: 0 1px 2px rgba(20,23,28,.06), 0 1px 1px rgba(20,23,28,.04);
+  --sh-2: 0 4px 16px rgba(20,23,28,.08), 0 1px 2px rgba(20,23,28,.04);
+  --sh-3: 0 16px 40px rgba(20,23,28,.14), 0 2px 4px rgba(20,23,28,.06);
+
+  /* Motion */
+  --ease-out: cubic-bezier(.2,.7,.3,1);
+  --ease-in-out: cubic-bezier(.6,.05,.3,1);
+  --dur-snap:120ms;
+  --dur-base:220ms;
+  --dur-glide:420ms;
+  --dur-train:900ms;
+
+  /* Map metrics */
+  --hex-size: 56px;        /* outer radius */
+  --track-width: 7px;
+  --track-stroke: 2px;
+}
+
+[data-theme="dark"] {
+  --paper:    #0f1218;
+  --surface:  #161a22;
+  --surface-2:#1b202a;
+  --sunk:     #0a0d12;
+  --ink:      #f1efe9;
+  --ink-1:    #d4d2cb;
+  --ink-2:    #9aa0ac;
+  --ink-3:    #6c727e;
+  --ink-4:    #3f4551;
+  --rule:     #262b36;
+  --rule-soft:#1d212a;
+
+  --terrain-plain:    #1a1f29;
+  --terrain-forest:   #1d2a23;
+  --terrain-mountain: #2a241c;
+  --terrain-water:    #142434;
+  --terrain-desert:   #2c2516;
+  --terrain-swamp:    #232218;
+  --river:            #4f86b3;
+  --coast:            #2b3f50;
+
+  /* slightly brightened player lines for dark surfaces */
+  --p1:#ff5c5c; --p2:#4f93f0; --p3:#4ba879; --p4:#f3bf3a;
+  --p5:#ff7e3f; --p6:#9c79e9; --p7:#34b8bd; --p8:#ec5fa3;
+  --p1-tint:#3a1f23; --p2-tint:#1a2a44; --p3-tint:#1c3327;
+  --p4-tint:#3a2f12; --p5-tint:#3a2317; --p6-tint:#26203f;
+  --p7-tint:#0f2e30; --p8-tint:#3a1a2a;
+}
+
+[data-theme="sepia"] {
+  --paper:    #efe3ca;
+  --surface:  #f7ecd2;
+  --surface-2:#f2e4c2;
+  --sunk:     #e2d2b1;
+  --ink:      #2a1d09;
+  --ink-1:    #463318;
+  --ink-2:    #76603e;
+  --ink-3:    #a48c63;
+  --ink-4:    #c4b18a;
+  --rule:     #d2bf95;
+  --rule-soft:#dfcfa6;
+
+  --terrain-plain:    #f7ecd2;
+  --terrain-forest:   #cbd6a8;
+  --terrain-mountain: #d4c089;
+  --terrain-water:    #c8d8c9;
+  --terrain-desert:   #e6c986;
+  --terrain-swamp:    #b8b083;
+  --river:            #6b9b86;
+  --coast:            #b6c5a8;
+}
+
+/* === Variation B · Compass (alt palette + type) — opt-in via data-variant="b" === */
+[data-variant="b"] {
+  --font-display: 'DM Sans', system-ui, sans-serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', ui-monospace, monospace;
+
+  --paper:    #eef0f3;
+  --surface:  #ffffff;
+  --surface-2:#f6f7f9;
+  --sunk:     #e2e5ea;
+  --ink:      #0c1320;
+  --ink-1:    #1c2535;
+  --ink-2:    #4a5468;
+  --ink-3:    #7c8597;
+  --ink-4:    #b4bac6;
+  --rule:     #d6dae1;
+  --rule-soft:#e6e9ee;
+
+  --p1:#c8312f; --p2:#1455c4; --p3:#0d7044; --p4:#d99800;
+  --p5:#d1551d; --p6:#5d3fbd; --p7:#067b88; --p8:#ad2974;
+  --p1-tint:#f6d6d3; --p2-tint:#d5e2f5; --p3-tint:#cfe2d6;
+  --p4-tint:#f6e6b8; --p5-tint:#f6dac5; --p6-tint:#dcd1f4;
+  --p7-tint:#c4e2e5; --p8-tint:#f1cee0;
+
+  --terrain-plain:#f6f7f9;
+  --terrain-forest:#cfdfc6;
+  --terrain-mountain:#d2cabb;
+  --terrain-water:#c5d8e9;
+  --terrain-desert:#ead2a3;
+  --terrain-swamp:#bcbea3;
+}
+
+/* === Base reset for the canvas content === */
+*,*::before,*::after { box-sizing: border-box; }
+html, body { margin:0; padding:0; }
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Numeric defaults — tabular for scores/times */
+.num, .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }

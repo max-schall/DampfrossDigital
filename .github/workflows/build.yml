@@ -1,0 +1,69 @@
+name: Build
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact: DampfrossDigital-linux
+          - os: windows-latest
+            artifact: DampfrossDigital-windows
+          - os: macos-latest
+            artifact: DampfrossDigital-macos
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pyinstaller
+
+      - name: Build
+        run: pyinstaller dampfross.spec
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: dist/DampfrossDigital/
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+
+      - name: Zip each platform build
+        run: |
+          cd artifacts
+          zip -r DampfrossDigital-linux.zip   DampfrossDigital-linux/
+          zip -r DampfrossDigital-windows.zip DampfrossDigital-windows/
+          zip -r DampfrossDigital-macos.zip   DampfrossDigital-macos/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/DampfrossDigital-linux.zip
+            artifacts/DampfrossDigital-windows.zip
+            artifacts/DampfrossDigital-macos.zip
+          generate_release_notes: true

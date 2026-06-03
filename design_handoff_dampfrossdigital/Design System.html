@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Dampfrossdigital · Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<link rel="stylesheet" href="tokens.css"/>
+<link rel="stylesheet" href="ds.css"/>
+
+<style>
+  /* Host page — sets the global theme via [data-theme] on body */
+  html, body { height:100%; }
+  body[data-theme] { background: var(--paper); }
+  /* Make sure SettingRow's "first" border quirk is invisible — no first-row separator */
+  .dr-panel > .row:first-child { --first-row-no-border: 0px; }
+  .dr-panel > .row:first-child[style*="borderTop:1px solid var(--rule-soft)"] { border-top:0 !important; }
+</style>
+
+<!-- React + Babel -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+</head>
+<body data-theme="light">
+
+<div id="root"></div>
+
+<!-- Canvas & Tweaks framework -->
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+
+<!-- Design system content -->
+<script type="text/babel" src="foundations.jsx"></script>
+<script type="text/babel" src="map-system.jsx"></script>
+<script type="text/babel" src="components.jsx"></script>
+<script type="text/babel" src="screens.jsx"></script>
+
+<!-- App shell -->
+<script type="text/babel" data-presets="react">
+const { useEffect } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "theme": "light"
+}/*EDITMODE-END*/;
+
+function App() {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  useEffect(() => {
+    document.body.setAttribute('data-theme', tweaks.theme || 'light');
+  }, [tweaks.theme]);
+
+  return (
+    <>
+      <DesignCanvas>
+        <DCSection id="brand" title="Dampfrossdigital" subtitle="Design system · transit-map aesthetic for a digital railway game">
+          <DCArtboard id="cover" label="Cover" width={900} height={1100}>
+            <BrandCover/>
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="foundations" title="Foundations" subtitle="Two color stories, two type pairings. Variation A is the dominant system; B is the alternate.">
+          <DCArtboard id="colors-a" label="A · Stations · Colors" width={820} height={1080}>
+            <ColorsArtboard/>
+          </DCArtboard>
+          <DCArtboard id="colors-b" label="B · Compass · Colors" width={820} height={1080}>
+            <ColorsVariantB/>
+          </DCArtboard>
+          <DCArtboard id="type-a" label="A · Geist + Geist Mono" width={900} height={760}>
+            <TypeArtboard/>
+          </DCArtboard>
+          <DCArtboard id="type-b" label="B · DM Sans + Plex Mono" width={900} height={760}>
+            <TypeVariantB/>
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="map" title="Map system" subtitle="Schematic hex grid, terrain glyphs, cities, rivers, coastlines">
+          <DCArtboard id="map-tiles" label="Tiles · Cities · Sample" width={1100} height={1200}>
+            <MapSystemArtboard/>
+          </DCArtboard>
+          <DCArtboard id="tracks" label="Tracks · Trains · Junctions" width={900} height={920}>
+            <TracksAndTrainsArtboard/>
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="components" title="Components" subtitle="Buttons, panels, dialogs, badges, controls, toasts">
+          <DCArtboard id="comp-kit" label="Component kit" width={1080} height={1400}>
+            <ComponentsArtboard/>
+          </DCArtboard>
+          <DCArtboard id="hud" label="HUD &amp; overlays" width={900} height={1100}>
+            <HudArtboard/>
+          </DCArtboard>
+          <DCArtboard id="players" label="Player cards · Scoreboard" width={900} height={1200}>
+            <PlayerCardsArtboard/>
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="screens" title="Sample screens" subtitle="The whole loop, in seven screens">
+          <DCArtboard id="s1" label="01 · Title" width={1280} height={800}>
+            <TitleScreen/>
+          </DCArtboard>
+          <DCArtboard id="s2" label="02 · Map view" width={1280} height={800}>
+            <MapViewScreen/>
+          </DCArtboard>
+          <DCArtboard id="s3" label="03 · Network turn" width={1280} height={800}>
+            <BuildTurnScreen/>
+          </DCArtboard>
+          <DCArtboard id="s4" label="04 · Race phase" width={1280} height={800}>
+            <RaceScreen/>
+          </DCArtboard>
+          <DCArtboard id="s5" label="05 · Scoreboard" width={1280} height={800}>
+            <ScoreboardScreen/>
+          </DCArtboard>
+          <DCArtboard id="s6" label="06 · Round results" width={1280} height={800}>
+            <ResultsScreen/>
+          </DCArtboard>
+          <DCArtboard id="s7" label="07 · Settings" width={1280} height={800}>
+            <SettingsScreen/>
+          </DCArtboard>
+          <DCArtboard id="s8" label="08 · Map editor" width={1440} height={900}>
+            <MapEditorScreen/>
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="motion" title="Motion notes" subtitle="Durations + easing — applied via tokens">
+          <DCArtboard id="motion-tokens" label="Motion tokens" width={820} height={420}>
+            <MotionNotes/>
+          </DCArtboard>
+        </DCSection>
+      </DesignCanvas>
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Theme"/>
+        <TweakRadio
+          label="Surface"
+          value={tweaks.theme}
+          options={['light', 'dark', 'sepia']}
+          onChange={v => setTweak('theme', v)}
+        />
+      </TweaksPanel>
+    </>
+  );
+}
+
+function MotionNotes() {
+  const rows = [
+    {tok:'--dur-snap',  v:'120ms', use:'Button press, toggle flip', ease:'ease-out'},
+    {tok:'--dur-base',  v:'220ms', use:'Hover, panel reveal',       ease:'ease-out'},
+    {tok:'--dur-glide', v:'420ms', use:'Camera pan, focus shift',   ease:'ease-in-out'},
+    {tok:'--dur-train', v:'900ms', use:'Train traversal per hex',   ease:'ease-in-out'},
+  ];
+  return (
+    <div className="dr-art dr-pad-m">
+      <div className="dr-eyebrow">Motion</div>
+      <div className="dr-title">Quick taps, gliding maps.</div>
+      <p className="dr-sub" style={{margin:'0 0 24px'}}>Snap on commit. Glide on context shift. Trains take their time.</p>
+      <div className="dr-panel">
+        <table style={{width:'100%', borderCollapse:'collapse', fontSize:13}}>
+          <tbody>
+          {rows.map((r,i) => (
+            <tr key={r.tok} style={{borderTop: i?'1px solid var(--rule-soft)':'0'}}>
+              <td className="mono" style={{padding:'14px 18px', color:'var(--ink-1)', width:160}}>{r.tok}</td>
+              <td className="mono tnum" style={{padding:'14px 8px', color:'var(--ink)', width:90}}>{r.v}</td>
+              <td className="mono" style={{padding:'14px 8px', color:'var(--ink-3)', letterSpacing:'.06em', textTransform:'uppercase', width:140}}>{r.ease}</td>
+              <td style={{padding:'14px 18px', color:'var(--ink-1)'}}>{r.use}</td>
+            </tr>
+          ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+
+</body>
+</html>
